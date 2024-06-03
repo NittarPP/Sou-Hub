@@ -8,9 +8,6 @@ local Window = OrionLib:MakeWindow({Name = "Sou / Hub", HidePremium = false, Sav
 local place = game.PlaceId
 local player = game.Players.LocalPlayer
 
--- HttpService for JSON and HTTP requests
-local HttpService = game:GetService("HttpService")
-
 -- Function to load specific applications
 function Load(App)
     if App == 15885874861 then
@@ -40,10 +37,7 @@ function Load(App)
             Default = "0",
             TextDisappear = true,
             Callback = function(Value)
-                local args = {
-                    [1] = Value
-                }
-                
+                local args = {[1] = Value}
                 game:GetService("ReplicatedStorage"):WaitForChild("Honeypot"):WaitForChild("Internal"):WaitForChild("RemoteStorage"):WaitForChild("AwardSpinSize - RemoteEvent"):FireServer(unpack(args))
             end	  
         })
@@ -59,19 +53,24 @@ function Load(App)
                 end
             end    
         })
+
+        -- Textbox for using
         Tab:AddTextbox({
             Name = "Use",
             Default = "0-40",
             TextDisappear = true,
             Callback = function(Value)
-                local args = {
-                    [1] = Value
-                }
+                local args = {[1] = Value}
                 game:GetService("ReplicatedStorage"):WaitForChild("Honeypot"):WaitForChild("Internal"):WaitForChild("RemoteStorage"):WaitForChild("BuySkin - RemoteEvent"):FireServer(unpack(args))
             end	  
         })
 
-    end    
+        Tab:AddButton({
+            Name = "Close",
+            Callback = function()
+                OrionLib:Destroy()
+            end    
+        })
 
     else
         OrionLib:MakeNotification({
@@ -85,7 +84,7 @@ end
 
 -- Check place ID and load corresponding application
 if place == 15885874861 then
-    Load(15885874861)
+    Load(place)
 else
     OrionLib:MakeNotification({
         Name = "Sou Support",
