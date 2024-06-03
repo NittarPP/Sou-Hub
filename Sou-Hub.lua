@@ -2,7 +2,12 @@
 local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/shlexware/Orion/main/source')))()
 
 -- Create a Window
-local Window = OrionLib:MakeWindow({Name = "Sou / Hub", HidePremium = false, SaveConfig = true, ConfigFolder = "Sou-Hub"})
+local Window = OrionLib:MakeWindow({
+    Name = "Sou / Hub",
+    HidePremium = false,
+    SaveConfig = true,
+    ConfigFolder = "Sou-Hub"
+})
 
 -- Get current place ID and player
 local place = game.PlaceId
@@ -10,44 +15,50 @@ local player = game.Players.LocalPlayer
 
 -- Function to load specific applications
 function Load(App)
-
     function update()
-        local update = Window:MakeTab({
+        local updateTab = Window:MakeTab({
             Name = "Update",
             Icon = "rbxassetid://4483345998",
             PremiumOnly = false
         })
 
-        -- Adding a section to the tab
-        local Section = update:AddSection({
+        updateTab:AddTextbox({
+            Name = "Discord",
+            Default = "https://discord.gg/ajUkXRYQbv",
+            TextDisappear = false,
+            Callback = function(Value)
+                Default = "https://discord.gg/ajUkXRYQbv"
+            end	  
+        })
+
+        updateTab:AddSection({
             Name = "Update ver 0.2"
         })
-        local Section = update:AddSection({
-            Name = "Update Eat Slimes to Grow HUGE / 15885874861"
+
+        updateTab:AddSection({
+            Name = "Update Eat Slimes to Grow HUGE"
         })
     end
 
     if App == 15885874861 then
         OrionLib:MakeNotification({
             Name = "Sou Notification",
-            Content = "Hello " .. player.Name .. ", Welcome to Sou Hub" .. ", Ver 0.2",
+            Content = "Hello " .. player.Name .. ", Welcome to Sou Hub, Ver 0.2",
             Image = "rbxassetid://4483345998",
             Time = 5
         })
 
-        local Tab = Window:MakeTab({
+        local mainTab = Window:MakeTab({
             Name = "Main",
             Icon = "rbxassetid://4483345998",
             PremiumOnly = false
         })
 
-        -- Adding a section to the tab
-        local Section = Tab:AddSection({
+        mainTab:AddSection({
             Name = "Main Script"
         })
 
-        -- Textbox for adding size
-        Tab:AddTextbox({
+        mainTab:AddTextbox({
             Name = "Add Size",
             Default = "0",
             TextDisappear = true,
@@ -57,8 +68,7 @@ function Load(App)
             end	  
         })
 
-        -- Button to reset the player's health
-        Tab:AddButton({
+        mainTab:AddButton({
             Name = "Reset",
             Callback = function()
                 local character = player.Character or player.CharacterAdded:Wait()
@@ -69,8 +79,7 @@ function Load(App)
             end    
         })
 
-        -- Textbox for using
-        Tab:AddTextbox({
+        mainTab:AddTextbox({
             Name = "Use",
             Default = "0-46",
             TextDisappear = true,
@@ -80,7 +89,7 @@ function Load(App)
             end	  
         })
 
-        Tab:AddButton({
+        mainTab:AddButton({
             Name = "Close",
             Callback = function()
                 OrionLib:Destroy()
@@ -92,21 +101,25 @@ function Load(App)
     else
         OrionLib:MakeNotification({
             Name = "Sou Support",
-            Content = "Hello " .. player.Name .. ", Error Loading",
+            Content = "Hello " .. player.Name .. ", Error Loading, Auto Reload",
+            Image = "rbxassetid://4483345998",
+            Time = 5
+        })
+        Start()
+    end
+end
+
+function Start()
+    if place == 15885874861 then
+        Load(place)
+    else
+        OrionLib:MakeNotification({
+            Name = "Sou Support",
+            Content = "Hello " .. player.Name .. ", Game Not Supported",
             Image = "rbxassetid://4483345998",
             Time = 5
         })
     end
 end
 
--- Check place ID and load corresponding application
-if place == 15885874861 then
-    Load(place)
-else
-    OrionLib:MakeNotification({
-        Name = "Sou Support",
-        Content = "Hello " .. player.Name .. ", Game Not Supported",
-        Image = "rbxassetid://4483345998",
-        Time = 5
-    })
-end
+Start()
