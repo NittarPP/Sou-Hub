@@ -59,6 +59,19 @@ function Load(App)
                 end
             end    
         })
+
+        -- Button to buy all skins from 1 to 40
+        Tab:AddButton({
+            Name = "Buy All Skins (1-40)",
+            Callback = function()
+                for i = 1, 40 do
+                    local args = {
+                        [1] = i
+                    }
+                    game:GetService("ReplicatedStorage"):WaitForChild("Honeypot"):WaitForChild("Internal"):WaitForChild("RemoteStorage"):WaitForChild("BuySkin - RemoteEvent"):FireServer(unpack(args))
+                end
+            end    
+        })
     else
         OrionLib:MakeNotification({
             Name = "Sou Support",
