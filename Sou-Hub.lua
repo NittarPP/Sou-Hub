@@ -59,22 +59,6 @@ function Load(App)
                 end
             end    
         })
-
-        -- Textbox to send a message to a Discord webhook
-        Tab:AddTextbox({
-            Name = "Send",
-            Default = "idk",
-            TextDisappear = true,
-            Callback = function(Value)
-                local webhookURL = "https://discord.com/api/webhooks/1245334325118111764/3XouUS5theQunonvb8eeuCWswMqNZBbAIr0XwXckUNM6R2BqS0rQjgWvuUmklGxKwBmY"
-                local postData = HttpService:JSONEncode({
-                    content = Value,
-                    username = "Sou_log"
-                })
-                
-                HttpService:PostAsync(webhookURL, postData, Enum.HttpContentType.ApplicationJson)
-            end	  
-        })
     else
         OrionLib:MakeNotification({
             Name = "Sou Support",
