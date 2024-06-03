@@ -38,7 +38,7 @@ function Load(App)
 
         Tab:AddTextbox({
             Name = "Add Size",
-            Default = "25000",
+            Default = "0",
             TextDisappear = true,
             Callback = function(Value)
                 local args = {
@@ -49,6 +49,24 @@ function Load(App)
             end	  
         })
 
+        Tab:AddButton({
+            Name = "Reset",
+            Callback = function()
+                local player = game.Players.LocalPlayer
+                local character = player.Character or player.CharacterAdded:Wait()
+                local humanoid = character:FindFirstChild("Humanoid")
+                if humanoid then
+                    humanoid.Health = 0
+                end
+            end    
+        })
+    else
+        OrionLib:MakeNotification({
+            Name = "Sou Support",
+            Content = "Hello " .. player.Name .. ", Error Loading",
+            Image = "rbxassetid://4483345998",
+            Time = 5
+        })
     end
 end
 
@@ -58,7 +76,7 @@ if place == 15885874861 then
 else
     OrionLib:MakeNotification({
         Name = "Sou Support",
-        Content = "Hello " .. player.Name .. "Game Not Support",
+        Content = "Hello " .. player.Name .. ", Game Not Supported",
         Image = "rbxassetid://4483345998",
         Time = 5
     })
