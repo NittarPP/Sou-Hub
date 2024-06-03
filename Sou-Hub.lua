@@ -2,11 +2,16 @@ local Luminosity = loadstring(game:HttpGet("https://raw.githubusercontent.com/iH
 local Window = Luminosity.new("Sou / Hub", "v1.0.0", 4370345701)
 local place = game.PlaceId
 
-function Load(Game)
-    local Tab1 = Window.Tab("Main", 6026568198)
-    local Folder1 = Tab1.Folder("Main", "A bunch of options you can use")
+function send(Text)
+    local Web = nil
 
-    Folder1.TextBox("Size", "Enter Your Size", function(Size)
+end
+
+function Load(Game)
+    local Main = Window.Tab("Main", 6026568198)
+    local Folder1 = Main.Folder("Main", "A bunch of options you can use")
+
+    Main.TextBox("Size", "Enter Your Size", function(Size)
         local args = {
             [1] = Size
         }
