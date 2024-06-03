@@ -1,7 +1,14 @@
--- Load OrionLib
 local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/shlexware/Orion/main/source')))()
 
--- Create a Window
+function Notification(Name, Content, Image, Time)
+    OrionLib:MakeNotification({
+        Name = Name,
+        Content = Content,
+        Image = Image,
+        Time = Time
+    })
+end
+
 local Window = OrionLib:MakeWindow({
     Name = "Sou / Hub",
     HidePremium = false,
@@ -9,12 +16,13 @@ local Window = OrionLib:MakeWindow({
     ConfigFolder = "Sou-Hub"
 })
 
--- Get current place ID and player
-local place = game.PlaceId
 local player = game.Players.LocalPlayer
+local place = game.PlaceId
 
 -- Function to load specific applications
 function Load(App)
+    Notification("Sou Notification", "Hello " .. player.Name .. ", Welcome to Sou Hub", "rbxassetid://4483345998", 5)
+
     function update()
         local updateTab = Window:MakeTab({
             Name = "Update",
@@ -40,14 +48,7 @@ function Load(App)
         })
     end
 
-    if App == 15885874861 then
-        OrionLib:MakeNotification({
-            Name = "Sou Notification",
-            Content = "Hello " .. player.Name .. ", Welcome to Sou Hub, Ver 0.2",
-            Image = "rbxassetid://4483345998",
-            Time = 5
-        })
-
+    if App == "15885874861" then
         local mainTab = Window:MakeTab({
             Name = "Main",
             Icon = "rbxassetid://4483345998",
@@ -97,7 +98,6 @@ function Load(App)
         })
 
         update()
-
     else
         OrionLib:MakeNotification({
             Name = "Sou Support",
@@ -109,16 +109,13 @@ function Load(App)
     end
 end
 
+local allow = {"15885874861"}
+
 function Start()
-    if place == 15885874861 then
+    if table.find(allow, tostring(place)) then
         Load(place)
     else
-        OrionLib:MakeNotification({
-            Name = "Sou Support",
-            Content = "Hello " .. player.Name .. ", Game Not Supported",
-            Image = "rbxassetid://4483345998",
-            Time = 5
-        })
+        Notification("Sou Support", "Hello " .. player.Name .. ", Game Not Supported", "rbxassetid://4483345998", 5)
     end
 end
 
