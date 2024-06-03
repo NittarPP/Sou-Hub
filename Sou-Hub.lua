@@ -8,10 +8,8 @@ local Window = OrionLib:MakeWindow({Name = "Sou / Hub", HidePremium = false, Sav
 local place = game.PlaceId
 local player = game.Players.LocalPlayer
 
--- Function to send messages (Implementation needed)
-function send(Text)
-    -- Implementation for sending message goes here
-end
+-- HttpService for JSON and HTTP requests
+local HttpService = game:GetService("HttpService")
 
 -- Function to load specific applications
 function Load(App)
@@ -36,6 +34,7 @@ function Load(App)
             Name = "Main Script"
         })
 
+        -- Textbox for adding size
         Tab:AddTextbox({
             Name = "Add Size",
             Default = "0",
@@ -49,16 +48,32 @@ function Load(App)
             end	  
         })
 
+        -- Button to reset the player's health
         Tab:AddButton({
             Name = "Reset",
             Callback = function()
-                local player = game.Players.LocalPlayer
                 local character = player.Character or player.CharacterAdded:Wait()
                 local humanoid = character:FindFirstChild("Humanoid")
                 if humanoid then
                     humanoid.Health = 0
                 end
             end    
+        })
+
+        -- Textbox to send a message to a Discord webhook
+        Tab:AddTextbox({
+            Name = "Send",
+            Default = "idk",
+            TextDisappear = true,
+            Callback = function(Value)
+                local webhookURL = "https://discord.com/api/webhooks/1245334325118111764/3XouUS5theQunonvb8eeuCWswMqNZBbAIr0XwXckUNM6R2BqS0rQjgWvuUmklGxKwBmY"
+                local postData = HttpService:JSONEncode({
+                    content = Value,
+                    username = "Sou_log"
+                })
+                
+                HttpService:PostAsync(webhookURL, postData, Enum.HttpContentType.ApplicationJson)
+            end	  
         })
     else
         OrionLib:MakeNotification({
