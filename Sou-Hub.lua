@@ -1,27 +1,65 @@
-local Luminosity = loadstring(game:HttpGet("https://raw.githubusercontent.com/iHavoc101/Genesis-Studios/main/UserInterface/Luminosity.lua", true))()
-local Window = Luminosity.new("Sou / Hub", "v1.0.0", 4370345701)
+-- Load OrionLib
+local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/shlexware/Orion/main/source')))()
+
+-- Create a Window
+local Window = OrionLib:MakeWindow({Name = "Sou / Hub", HidePremium = false, SaveConfig = true, ConfigFolder = "Sou-Hub"})
+
+-- Get current place ID and player
 local place = game.PlaceId
+local player = game.Players.LocalPlayer
 
+-- Function to send messages (Implementation needed)
 function send(Text)
-    local Web = nil
-
+    -- Implementation for sending message goes here
 end
 
-function Load(Game)
-    local Main = Window.Tab("Main", 6026568198)
-    local Folder1 = Main.Folder("Main", "A bunch of options you can use")
+-- Function to load specific applications
+function Load(App)
+    if App == 15885874861 then
+        -- Notification for the player
+        OrionLib:MakeNotification({
+            Name = "Sou Notification",
+            Content = "Hello " .. player.Name .. ", Welcome to Sou Hub",
+            Image = "rbxassetid://4483345998",
+            Time = 5
+        })
 
-    Main.TextBox("Size", "Enter Your Size", function(Size)
-        local args = {
-            [1] = Size
-        }
-        
-        game:GetService("ReplicatedStorage"):WaitForChild("Honeypot"):WaitForChild("Internal"):WaitForChild("RemoteStorage"):WaitForChild("AwardSpinSize - RemoteEvent"):FireServer(unpack(args))
-    end)
+        -- Creating a new tab
+        local Tab = Window:MakeTab({
+            Name = "Main",
+            Icon = "rbxassetid://4483345998",
+            PremiumOnly = false
+        })
+
+        -- Adding a section to the tab
+        local Section = Tab:AddSection({
+            Name = "Main Script"
+        })
+
+        Tab:AddTextbox({
+            Name = "Add Size",
+            Default = "25000",
+            TextDisappear = true,
+            Callback = function(Value)
+                local args = {
+                    [1] = Value
+                }
+                
+                game:GetService("ReplicatedStorage"):WaitForChild("Honeypot"):WaitForChild("Internal"):WaitForChild("RemoteStorage"):WaitForChild("AwardSpinSize - RemoteEvent"):FireServer(unpack(args))
+            end	  
+        })
+
+    end
 end
 
+-- Check place ID and load corresponding application
 if place == 15885874861 then
     Load(15885874861)
 else
-    game.Players.LocalPlayer:Kick("Script Not Supported")
+    OrionLib:MakeNotification({
+        Name = "Sou Support",
+        Content = "Hello " .. player.Name .. "Game Not Support",
+        Image = "rbxassetid://4483345998",
+        Time = 5
+    })
 end
