@@ -10,16 +10,31 @@ local player = game.Players.LocalPlayer
 
 -- Function to load specific applications
 function Load(App)
+
+    function update()
+        local update = Window:MakeTab({
+            Name = "Update",
+            Icon = "rbxassetid://4483345998",
+            PremiumOnly = false
+        })
+
+        -- Adding a section to the tab
+        local Section = update:AddSection({
+            Name = "Update ver 0.2"
+        })
+        local Section = update:AddSection({
+            Name = "Update Eat Slimes to Grow HUGE / 15885874861"
+        })
+    end
+
     if App == 15885874861 then
-        -- Notification for the player
         OrionLib:MakeNotification({
             Name = "Sou Notification",
-            Content = "Hello " .. player.Name .. ", Welcome to Sou Hub",
+            Content = "Hello " .. player.Name .. ", Welcome to Sou Hub" .. ", Ver 0.2",
             Image = "rbxassetid://4483345998",
             Time = 5
         })
 
-        -- Creating a new tab
         local Tab = Window:MakeTab({
             Name = "Main",
             Icon = "rbxassetid://4483345998",
@@ -57,7 +72,7 @@ function Load(App)
         -- Textbox for using
         Tab:AddTextbox({
             Name = "Use",
-            Default = "0-40",
+            Default = "0-46",
             TextDisappear = true,
             Callback = function(Value)
                 local args = {[1] = Value}
@@ -71,6 +86,8 @@ function Load(App)
                 OrionLib:Destroy()
             end    
         })
+
+        update()
 
     else
         OrionLib:MakeNotification({
