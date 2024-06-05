@@ -1,17 +1,17 @@
+-- Function to load player data
 function data()
-local Players = game:GetService("Players").id
-local player = game.Players.LocalPlayer
-local place = tostring(game.PlaceId)
-local pu = loadstring(game:HttpGet(('https://raw.githubusercontent.com/NittarPP/Sou-Hub/main/Premium%20User.lua')))(id)
+    local player = game.Players.LocalPlayer
+    local pu = loadstring(game:HttpGet('https://raw.githubusercontent.com/NittarPP/Sou-Hub/main/Premium%20User.lua'))()
+    local playerId = tostring(player.UserId)
+
+    -- Check if the player is a premium user
+    return pu.find(playerId)
 end
-local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/shlexware/Orion/main/source')))()
 
-if pu.find(Players, id) then
-    ps = true
-else
-    ps = false
-else
+-- Load the Orion Library
+local OrionLib = loadstring(game:HttpGet('https://raw.githubusercontent.com/shlexware/Orion/main/source'))()
 
+-- Function to create notifications
 function Notification(Name, Content, Image, Time)
     OrionLib:MakeNotification({
         Name = Name,
@@ -20,7 +20,7 @@ function Notification(Name, Content, Image, Time)
         Time = Time
     })
 end
-data()
+
 -- Create the main window
 local Window = OrionLib:MakeWindow({
     Name = "Sou / Hub",
@@ -28,6 +28,10 @@ local Window = OrionLib:MakeWindow({
     SaveConfig = true,
     ConfigFolder = "Sou-Hub"
 })
+
+local player = game.Players.LocalPlayer
+local place = tostring(game.PlaceId)
+local isPremiumUser = data()
 
 -- Function to load specific applications
 function Load(App)
@@ -46,7 +50,7 @@ function Load(App)
             Default = "https://discord.gg/ajUkXRYQbv",
             TextDisappear = false,
             Callback = function(Value)
-                -- This callback doesn't seem to do anything with the Value
+                -- Callback function does nothing with the Value
             end	  
         })
 
@@ -64,12 +68,14 @@ function Load(App)
     end
 
     if App == "15885874861" then
-
-        local Premium = Window:MakeTab({
-            Name = "Premium",
-            Icon = "rbxassetid://4483345998",
-            PremiumOnly = true
-        })
+        -- Create Premium tab if the user is a premium user
+        if isPremiumUser then
+            local Premium = Window:MakeTab({
+                Name = "Premium",
+                Icon = "rbxassetid://4483345998",
+                PremiumOnly = true
+            })
+        end
 
         local mainTab = Window:MakeTab({
             Name = "Main",
@@ -90,7 +96,7 @@ function Load(App)
             Default = "0",
             TextDisappear = true,
             Callback = function(Value)
-                local args = {[1] = tonumber(Value)}
+                local args = {tonumber(Value)}
                 game:GetService("ReplicatedStorage"):WaitForChild("Honeypot"):WaitForChild("Internal"):WaitForChild("RemoteStorage"):WaitForChild("AwardSpinSize - RemoteEvent"):FireServer(unpack(args))
             end	  
         })
@@ -111,7 +117,7 @@ function Load(App)
             Default = "0-46",
             TextDisappear = true,
             Callback = function(Value)
-                local args = Value,
+                local args = {Value}
                 game:GetService("ReplicatedStorage"):WaitForChild("Honeypot"):WaitForChild("Internal"):WaitForChild("RemoteStorage"):WaitForChild("BuySkin - RemoteEvent"):FireServer(unpack(args))
             end	  
         })
