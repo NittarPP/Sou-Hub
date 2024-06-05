@@ -75,6 +75,16 @@ function Load(App)
                 Icon = "rbxassetid://4483345998",
                 PremiumOnly = true
             })
+
+            Premium:AddTextbox({
+                Name = "Text Add Size (Premium)",
+                Default = "0",
+                TextDisappear = true,
+                Callback = function(Value)
+                    local args = {tonumber(Value)}
+                    game:GetService("ReplicatedStorage"):WaitForChild("Honeypot"):WaitForChild("Internal"):WaitForChild("RemoteStorage"):WaitForChild("AwardSpinSize - RemoteEvent"):FireServer(unpack(args))
+                end	  
+            })
         end
 
         local mainTab = Window:MakeTab({
@@ -91,15 +101,22 @@ function Load(App)
             Name = "Main Script"
         })
 
-        mainTab:AddTextbox({
-            Name = "Add Size",
-            Default = "0",
-            TextDisappear = true,
-            Callback = function(Value)
-                local args = {tonumber(Value)}
+        mainTab:AddButton({
+            Name = "10K Add Size",
+            Callback = function()
+                local args = 10000,
                 game:GetService("ReplicatedStorage"):WaitForChild("Honeypot"):WaitForChild("Internal"):WaitForChild("RemoteStorage"):WaitForChild("AwardSpinSize - RemoteEvent"):FireServer(unpack(args))
-            end	  
+            end    
         })
+
+        mainTab:AddButton({
+            Name = "100K Add Size",
+            Callback = function()
+                local args = 100000,
+                game:GetService("ReplicatedStorage"):WaitForChild("Honeypot"):WaitForChild("Internal"):WaitForChild("RemoteStorage"):WaitForChild("AwardSpinSize - RemoteEvent"):FireServer(unpack(args))
+            end    
+        })
+        
 
         mainTab:AddButton({
             Name = "Reset",
