@@ -106,16 +106,13 @@ function Load(App)
         })
 
         createUpdateTab()
-    elseif App == "1" then
-        player:Kick("Error Sou Hub")
     else
-        Notification("Sou Support", "Hello " .. player.Name .. ", Error Loading, Auto Reload", "rbxassetid://4483345998", 5)
-        Start()
-        wait(3)
+        Notification("Sou Support", "Hello " .. player.Name .. ", Error Loading, Auto Close", "rbxassetid://4483345998", 5)
+        OrionLib:Destroy()
     end
 end
 
-local allowedPlaces = {"15885874861", "1"}
+local allowedPlaces = {"15885874861"}
 
 -- Function to start the application
 function Start()
