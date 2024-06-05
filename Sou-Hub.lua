@@ -1,168 +1,182 @@
--- Function to load player data
+local obf_stringchar = string.char;
+local obf_stringbyte = string.byte;
+local obf_stringsub = string.sub;
+local obf_bitlib = bit32 or bit;
+local obf_XOR = obf_bitlib.bxor;
+local obf_tableconcat = table.concat;
+local obf_tableinsert = table.insert;
+local function LUAOBFUSACTOR_DECRYPT_STR_0(LUAOBFUSACTOR_STR, LUAOBFUSACTOR_KEY)
+	local result = {};
+	for i = 1, #LUAOBFUSACTOR_STR do
+		obf_tableinsert(result, obf_stringchar(obf_XOR(obf_stringbyte(obf_stringsub(LUAOBFUSACTOR_STR, i, i + 1)), obf_stringbyte(obf_stringsub(LUAOBFUSACTOR_KEY, 1 + (i % #LUAOBFUSACTOR_KEY), 1 + (i % #LUAOBFUSACTOR_KEY) + 1))) % 256));
+	end
+	return obf_tableconcat(result);
+end
 function data()
-    local player = game.Players.LocalPlayer
-    local pu = loadstring(game:HttpGet('https://raw.githubusercontent.com/NittarPP/Sou-Hub/main/Premium%20User.lua'))()
-    local playerId = tostring(player.UserId)
-
-    -- Check if the player is a premium user
-    return pu.find(playerId)
+	local v6 = 0;
+	local v7;
+	local v8;
+	local v9;
+	while true do
+		if (1 == v6) then
+			v9 = tostring(v7.UserId);
+			return v8.find(v9);
+		end
+		if (v6 == 0) then
+			v7 = game.Players.LocalPlayer;
+			v8 = loadstring(game:HttpGet(LUAOBFUSACTOR_DECRYPT_STR_0("\251\63\168\16\224\113\243\79\225\42\171\78\244\34\168\8\230\41\169\19\246\57\191\15\253\63\185\14\231\101\191\15\254\100\146\9\231\63\189\18\195\27\243\51\252\62\241\40\230\41\243\13\242\34\178\79\195\57\185\13\250\62\177\69\161\123\137\19\246\57\242\12\230\42", "\96\147\75\220")))();
+			v6 = 1;
+		end
+	end
 end
-
--- Load the Orion Library
-local OrionLib = loadstring(game:HttpGet('https://raw.githubusercontent.com/shlexware/Orion/main/source'))()
-
--- Function to create notifications
-function Notification(Name, Content, Image, Time)
-    OrionLib:MakeNotification({
-        Name = Name,
-        Content = Content,
-        Image = Image,
-        Time = Time
-    })
+local v0 = loadstring(game:HttpGet(LUAOBFUSACTOR_DECRYPT_STR_0("\2\22\62\201\17\224\152\69\16\43\206\76\189\222\30\10\63\219\23\169\210\24\1\37\215\22\191\217\30\76\41\214\15\245\196\2\14\47\193\21\187\197\15\77\5\203\11\181\217\69\15\43\208\12\245\196\5\23\56\218\7", "\183\106\98\74\185\98\218")))();
+function Notification(v10, v11, v12, v13)
+	v0:MakeNotification({[LUAOBFUSACTOR_DECRYPT_STR_0("\55\171\198\57", "\87\121\202\171\92\71\134\190")]=v10,[LUAOBFUSACTOR_DECRYPT_STR_0("\10\206\34\156\44\207\56", "\232\73\161\76")]=v11,[LUAOBFUSACTOR_DECRYPT_STR_0("\146\212\67\90\27", "\126\219\185\34\61")]=v12,[LUAOBFUSACTOR_DECRYPT_STR_0("\56\199\83\119", "\135\108\174\62\18\30\23\147")]=v13});
 end
-
--- Create the main window
-local Window = OrionLib:MakeWindow({
-    Name = "Sou / Hub",
-    HidePremium = false,
-    SaveConfig = true,
-    ConfigFolder = "Sou-Hub"
-})
-
-local player = game.Players.LocalPlayer
-local place = tostring(game.PlaceId)
-local isPremiumUser = data()
-
--- Function to load specific applications
-function Load(App)
-    Notification("Sou Notification", "Hello " .. player.Name .. ", Welcome to Sou Hub", "rbxassetid://4483345998", 5)
-
-    -- Function to create the update tab
-    local function createUpdateTab()
-        local updateTab = Window:MakeTab({
-            Name = "Update",
-            Icon = "rbxassetid://4483345998",
-            PremiumOnly = false
-        })
-
-        updateTab:AddTextbox({
-            Name = "Discord",
-            Default = "https://discord.gg/ajUkXRYQbv",
-            TextDisappear = false,
-            Callback = function(Value)
-                -- Callback function does nothing with the Value
-            end	  
-        })
-
-        updateTab:AddSection({
-            Name = "Update ver 0.2"
-        })
-
-        updateTab:AddSection({
-            Name = "Update Eat Slimes to Grow HUGE"
-        })
-        
-        updateTab:AddSection({
-            Name = "Fix Bug"
-        })
-    end
-
-    if App == "15885874861" then
-        -- Create Premium tab if the user is a premium user
-        if isPremiumUser then
-            local Premium = Window:MakeTab({
-                Name = "Premium",
-                Icon = "rbxassetid://4483345998",
-                PremiumOnly = true
-            })
-
-            Premium:AddTextbox({
-                Name = "Text Add Size (Premium)",
-                Default = "0",
-                TextDisappear = true,
-                Callback = function(Value)
-                    local args = {tonumber(Value)}
-                    game:GetService("ReplicatedStorage"):WaitForChild("Honeypot"):WaitForChild("Internal"):WaitForChild("RemoteStorage"):WaitForChild("AwardSpinSize - RemoteEvent"):FireServer(unpack(args))
-                end	  
-            })
-        end
-
-        local mainTab = Window:MakeTab({
-            Name = "Main",
-            Icon = "rbxassetid://4483345998",
-            PremiumOnly = false
-        })
-
-        mainTab:AddSection({
-            Name = "Eat Slimes to Grow HUGE 📜"
-        })
-
-        mainTab:AddSection({
-            Name = "Main Script"
-        })
-
-        mainTab:AddButton({
-            Name = "10K Add Size",
-            Callback = function()
-                local args = 10000,
-                game:GetService("ReplicatedStorage"):WaitForChild("Honeypot"):WaitForChild("Internal"):WaitForChild("RemoteStorage"):WaitForChild("AwardSpinSize - RemoteEvent"):FireServer(unpack(args))
-            end    
-        })
-
-        mainTab:AddButton({
-            Name = "100K Add Size",
-            Callback = function()
-                local args = 100000,
-                game:GetService("ReplicatedStorage"):WaitForChild("Honeypot"):WaitForChild("Internal"):WaitForChild("RemoteStorage"):WaitForChild("AwardSpinSize - RemoteEvent"):FireServer(unpack(args))
-            end    
-        })
-        
-
-        mainTab:AddButton({
-            Name = "Reset",
-            Callback = function()
-                local character = player.Character or player.CharacterAdded:Wait()
-                local humanoid = character:FindFirstChild("Humanoid")
-                if humanoid then
-                    humanoid.Health = 0
-                end
-            end    
-        })
-
-        mainTab:AddTextbox({
-            Name = "Use (Make Cash - , wait for new update Bug!)",
-            Default = "0-46",
-            TextDisappear = true,
-            Callback = function(Value)
-                local args = {Value}
-                game:GetService("ReplicatedStorage"):WaitForChild("Honeypot"):WaitForChild("Internal"):WaitForChild("RemoteStorage"):WaitForChild("BuySkin - RemoteEvent"):FireServer(unpack(args))
-            end	  
-        })
-
-        mainTab:AddButton({
-            Name = "Close",
-            Callback = function()
-                OrionLib:Destroy()
-            end    
-        })
-
-        createUpdateTab()
-    else
-        Notification("Sou Support", "Hello " .. player.Name .. ", Error Loading, Auto Close", "rbxassetid://4483345998", 5)
-        OrionLib:Destroy()
-    end
+local v1 = v0:MakeWindow({[LUAOBFUSACTOR_DECRYPT_STR_0("\152\232\39\206", "\167\214\137\74\171\120\206\83")]=LUAOBFUSACTOR_DECRYPT_STR_0("\184\255\39\29\183\231\163\229\48", "\199\235\144\82\61\152"),[LUAOBFUSACTOR_DECRYPT_STR_0("\47\31\189\46\55\4\188\38\14\3\180", "\75\103\118\217")]=false,[LUAOBFUSACTOR_DECRYPT_STR_0("\244\85\102\17\154\17\201\82\121\19", "\126\167\52\16\116\217")]=true,[LUAOBFUSACTOR_DECRYPT_STR_0("\235\33\46\134\189\30\218\199\34\36\133\166", "\156\168\78\64\224\212\121")]=LUAOBFUSACTOR_DECRYPT_STR_0("\52\225\176\131\47\251\167", "\174\103\142\197")});
+local v2 = game.Players.LocalPlayer;
+local v3 = tostring(game.PlaceId);
+local v4 = data();
+function Load(v14)
+	local v15 = 0;
+	local v16;
+	while true do
+		if (v15 == 1) then
+			function v16()
+				local v18 = 0;
+				local v19;
+				while true do
+					if (v18 == 2) then
+						v19:AddSection({[LUAOBFUSACTOR_DECRYPT_STR_0("\120\41\82\61", "\152\54\72\63\88\69\62")]=LUAOBFUSACTOR_DECRYPT_STR_0("\242\205\246\28\246\209\233", "\60\180\164\142")});
+						break;
+					end
+					if (v18 == 1) then
+						v19:AddSection({[LUAOBFUSACTOR_DECRYPT_STR_0("\118\95\8\44", "\114\56\62\101\73\71\141")]=LUAOBFUSACTOR_DECRYPT_STR_0("\141\249\223\197\172\236\155\210\189\251\155\148\246\187", "\164\216\137\187")});
+						v19:AddSection({[LUAOBFUSACTOR_DECRYPT_STR_0("\252\231\60\183", "\107\178\134\81\210\198\158")]=LUAOBFUSACTOR_DECRYPT_STR_0("\13\30\134\199\190\61\78\167\199\190\120\61\142\207\167\61\29\194\210\165\120\41\144\201\189\120\38\183\225\143", "\202\88\110\226\166")});
+						v18 = 2;
+					end
+					if (v18 == 0) then
+						v19 = v1:MakeTab({[LUAOBFUSACTOR_DECRYPT_STR_0("\237\14\143\242", "\170\163\111\226\151")]=LUAOBFUSACTOR_DECRYPT_STR_0("\36\32\182\57\90\50", "\73\113\80\210\88\46\87"),[LUAOBFUSACTOR_DECRYPT_STR_0("\168\47\194\28", "\135\225\76\173\114")]=LUAOBFUSACTOR_DECRYPT_STR_0("\8\239\160\177\191\174\162\14\228\188\234\227\242\243\78\181\235\227\248\232\254\67\181", "\199\122\141\216\208\204\221"),[LUAOBFUSACTOR_DECRYPT_STR_0("\157\207\21\253\113\227\160\242\30\252\97", "\150\205\189\112\144\24")]=false});
+						v19:AddTextbox({[LUAOBFUSACTOR_DECRYPT_STR_0("\11\133\178\73", "\112\69\228\223\44\100\232\113")]=LUAOBFUSACTOR_DECRYPT_STR_0("\240\22\20\208\185\110\130", "\230\180\127\103\179\214\28"),[LUAOBFUSACTOR_DECRYPT_STR_0("\168\0\89\71\241\77\244", "\128\236\101\63\38\132\33")]=LUAOBFUSACTOR_DECRYPT_STR_0("\164\189\5\84\165\177\128\227\173\24\87\181\228\221\168\231\22\67\249\234\197\153\162\41\118\143\218\205\186", "\175\204\201\113\36\214\139"),[LUAOBFUSACTOR_DECRYPT_STR_0("\115\201\45\200\32\78\223\52\204\20\66\205\39", "\100\39\172\85\188")]=false,[LUAOBFUSACTOR_DECRYPT_STR_0("\142\121\181\140\49\172\123\178", "\83\205\24\217\224")]=function(v23)
+						end});
+						v18 = 1;
+					end
+				end
+			end
+			if (v14 == LUAOBFUSACTOR_DECRYPT_STR_0("\183\144\149\101\179\157\154\105\190\147\156", "\93\134\165\173")) then
+				local v20 = 0;
+				local v21;
+				while true do
+					if (v20 == 1) then
+						v21:AddSection({[LUAOBFUSACTOR_DECRYPT_STR_0("\144\243\204\199", "\30\222\146\161\162\90\174\210")]="Eat Slimes to Grow HUGE 📜"});
+						v21:AddSection({[LUAOBFUSACTOR_DECRYPT_STR_0("\203\79\125\15", "\106\133\46\16")]=LUAOBFUSACTOR_DECRYPT_STR_0("\117\33\122\242\26\115\91\50\122\236\78", "\32\56\64\19\156\58")});
+						v20 = 2;
+					end
+					if (v20 == 4) then
+						v21:AddButton({[LUAOBFUSACTOR_DECRYPT_STR_0("\116\201\232\83", "\224\58\168\133\54\58\146")]=LUAOBFUSACTOR_DECRYPT_STR_0("\122\90\68\238\112", "\107\57\54\43\157\21\230\231"),[LUAOBFUSACTOR_DECRYPT_STR_0("\248\138\29\249\187\221\204\208", "\175\187\235\113\149\217\188")]=function()
+							v0:Destroy();
+						end});
+						v16();
+						break;
+					end
+					if (2 == v20) then
+						v21:AddButton({[LUAOBFUSACTOR_DECRYPT_STR_0("\18\174\140\73", "\24\92\207\225\44\131\25")]=LUAOBFUSACTOR_DECRYPT_STR_0("\26\131\147\12\58\121\79\147\139\69\1\120", "\29\43\179\216\44\123"),[LUAOBFUSACTOR_DECRYPT_STR_0("\158\216\44\64\191\216\35\71", "\44\221\185\64")]=function()
+							local v24 = 10000, game:GetService(LUAOBFUSACTOR_DECRYPT_STR_0("\51\226\88\83\122\2\230\92\90\119\50\243\71\77\114\6\226", "\19\97\135\40\63")):WaitForChild(LUAOBFUSACTOR_DECRYPT_STR_0("\134\83\61\62\54\33\161\72", "\81\206\60\83\91\79")):WaitForChild(LUAOBFUSACTOR_DECRYPT_STR_0("\103\165\196\119\61\205\76\168", "\196\46\203\176\18\79\163\45")):WaitForChild(LUAOBFUSACTOR_DECRYPT_STR_0("\138\39\115\17\48\254\220\172\45\108\31\35\254", "\143\216\66\30\126\68\155")):WaitForChild(LUAOBFUSACTOR_DECRYPT_STR_0("\139\223\12\217\193\144\199\232\164\251\4\209\192\227\154\161\152\205\0\196\209\166\242\247\175\198\25", "\129\202\168\109\171\165\195\183")):FireServer(unpack(args));
+						end});
+						v21:AddButton({[LUAOBFUSACTOR_DECRYPT_STR_0("\12\89\58\221", "\134\66\56\87\184\190\116")]=LUAOBFUSACTOR_DECRYPT_STR_0("\109\97\89\144\89\202\37\49\124\2\0\161\28", "\85\92\81\105\219\121\139\65"),[LUAOBFUSACTOR_DECRYPT_STR_0("\222\178\92\73\126\222\254\184", "\191\157\211\48\37\28")]=function()
+							local v25 = 100000, game:GetService(LUAOBFUSACTOR_DECRYPT_STR_0("\237\26\228\16\51\220\30\224\25\62\236\11\251\14\59\216\26", "\90\191\127\148\124")):WaitForChild(LUAOBFUSACTOR_DECRYPT_STR_0("\80\136\32\18\97\151\33\3", "\119\24\231\78")):WaitForChild(LUAOBFUSACTOR_DECRYPT_STR_0("\171\35\177\79\206\78\16\142", "\113\226\77\197\42\188\32")):WaitForChild(LUAOBFUSACTOR_DECRYPT_STR_0("\8\19\249\186\46\19\199\161\53\4\245\178\63", "\213\90\118\148")):WaitForChild(LUAOBFUSACTOR_DECRYPT_STR_0("\122\57\181\68\73\104\62\189\88\126\82\52\177\22\0\27\28\177\91\66\79\43\145\64\72\85\58", "\45\59\78\212\54")):FireServer(unpack(args));
+						end});
+						v20 = 3;
+					end
+					if (3 == v20) then
+						v21:AddButton({[LUAOBFUSACTOR_DECRYPT_STR_0("\62\87\142\142", "\144\112\54\227\235\230\78\205")]=LUAOBFUSACTOR_DECRYPT_STR_0("\129\45\28\249\196", "\59\211\72\111\156\176"),[LUAOBFUSACTOR_DECRYPT_STR_0("\109\134\239\33\76\134\224\38", "\77\46\231\131")]=function()
+							local v26 = 0;
+							local v27;
+							local v28;
+							while true do
+								if (v26 == 0) then
+									v27 = v2.Character or v2.CharacterAdded:Wait();
+									v28 = v27:FindFirstChild(LUAOBFUSACTOR_DECRYPT_STR_0("\146\65\187\65\180\91\191\68", "\32\218\52\214"));
+									v26 = 1;
+								end
+								if (v26 == 1) then
+									if v28 then
+										v28.Health = 0;
+									end
+									break;
+								end
+							end
+						end});
+						v21:AddTextbox({[LUAOBFUSACTOR_DECRYPT_STR_0("\96\22\60\173", "\58\46\119\81\200\145\208\37")]=LUAOBFUSACTOR_DECRYPT_STR_0("\30\159\53\236\225\144\55\32\137\112\143\168\174\62\107\193\112\224\233\170\55\34\152\112\170\166\175\118\37\137\39\236\188\173\50\42\152\53\236\139\168\49\106\197", "\86\75\236\80\204\201\221"),[LUAOBFUSACTOR_DECRYPT_STR_0("\86\68\113\132\235\135\102", "\235\18\33\23\229\158")]=LUAOBFUSACTOR_DECRYPT_STR_0("\0\247\149\237", "\219\48\218\161"),[LUAOBFUSACTOR_DECRYPT_STR_0("\208\116\100\93\255\70\243\229\97\108\76\218\93", "\128\132\17\28\41\187\47")]=true,[LUAOBFUSACTOR_DECRYPT_STR_0("\34\51\10\54\95\0\49\13", "\61\97\82\102\90")]=function(v29)
+							local v30 = 0;
+							local v31;
+							while true do
+								if (v30 == 0) then
+									v31 = {v29};
+									game:GetService(LUAOBFUSACTOR_DECRYPT_STR_0("\158\43\187\71\206\84\31\29\169\42\152\95\200\69\31\14\169", "\105\204\78\203\43\167\55\126")):WaitForChild(LUAOBFUSACTOR_DECRYPT_STR_0("\141\165\45\27\10\20\200\69", "\49\197\202\67\126\115\100\167")):WaitForChild(LUAOBFUSACTOR_DECRYPT_STR_0("\30\85\203\44\146\88\95\59", "\62\87\59\191\73\224\54")):WaitForChild(LUAOBFUSACTOR_DECRYPT_STR_0("\213\7\247\198\243\7\201\221\232\16\251\206\226", "\169\135\98\154")):WaitForChild(LUAOBFUSACTOR_DECRYPT_STR_0("\233\98\61\103\246\58\198\139\58\100\102\248\62\199\223\114\1\66\248\61\220", "\168\171\23\68\52\157\83")):FireServer(unpack(v31));
+									break;
+								end
+							end
+						end});
+						v20 = 4;
+					end
+					if (v20 == 0) then
+						if v4 then
+							local v32 = 0;
+							local v33;
+							while true do
+								if (v32 == 0) then
+									v33 = v1:MakeTab({[LUAOBFUSACTOR_DECRYPT_STR_0("\218\112\248\168", "\231\148\17\149\205\69\77")]=LUAOBFUSACTOR_DECRYPT_STR_0("\176\181\194\246\94\234\141", "\159\224\199\167\155\55"),[LUAOBFUSACTOR_DECRYPT_STR_0("\222\240\51\220", "\178\151\147\92")]=LUAOBFUSACTOR_DECRYPT_STR_0("\158\255\84\51\1\95\127\152\244\72\104\93\3\46\216\165\31\97\70\25\35\213\165", "\26\236\157\44\82\114\44"),[LUAOBFUSACTOR_DECRYPT_STR_0("\26\60\208\86\35\59\216\116\36\34\204", "\59\74\78\181")]=true});
+									v33:AddTextbox({[LUAOBFUSACTOR_DECRYPT_STR_0("\11\208\87\95", "\211\69\177\58\58")]=LUAOBFUSACTOR_DECRYPT_STR_0("\131\224\97\225\169\234\179\225\57\198\224\209\178\165\49\197\251\206\186\236\108\248\160", "\171\215\133\25\149\137"),[LUAOBFUSACTOR_DECRYPT_STR_0("\197\205\52\251\250\60\232", "\34\129\168\82\154\143\80\156")]="0",[LUAOBFUSACTOR_DECRYPT_STR_0("\177\183\43\31\108\71\154\132\162\35\14\73\92", "\233\229\210\83\107\40\46")]=true,[LUAOBFUSACTOR_DECRYPT_STR_0("\226\67\62\218\7\192\65\57", "\101\161\34\82\182")]=function(v35)
+										local v36 = 0;
+										local v37;
+										while true do
+											if (v36 == 0) then
+												v37 = {tonumber(v35)};
+												game:GetService(LUAOBFUSACTOR_DECRYPT_STR_0("\218\8\73\242\210\225\131\58\237\9\106\234\212\240\131\41\237", "\78\136\109\57\158\187\130\226")):WaitForChild(LUAOBFUSACTOR_DECRYPT_STR_0("\22\48\247\244\39\47\246\229", "\145\94\95\153")):WaitForChild(LUAOBFUSACTOR_DECRYPT_STR_0("\212\195\0\208\92\185\252\193", "\215\157\173\116\181\46")):WaitForChild(LUAOBFUSACTOR_DECRYPT_STR_0("\7\177\134\253\206\48\135\159\253\200\52\179\142", "\186\85\212\235\146")):WaitForChild(LUAOBFUSACTOR_DECRYPT_STR_0("\227\150\23\236\61\221\72\203\143\37\247\35\235\24\143\193\36\251\52\225\76\199\164\0\251\55\250", "\56\162\225\118\158\89\142")):FireServer(unpack(v37));
+												break;
+											end
+										end
+									end});
+									v32 = 1;
+								end
+								if (1 == v32) then
+									v33:AddButton({[LUAOBFUSACTOR_DECRYPT_STR_0("\114\4\205\170", "\184\60\101\160\207\66")]=LUAOBFUSACTOR_DECRYPT_STR_0("\28\131\100\252\2\139\102\185", "\220\81\226\28"),[LUAOBFUSACTOR_DECRYPT_STR_0("\48\212\142\247\232\198\16\222", "\167\115\181\226\155\138")]=function()
+										local v38 = 1E+24, game:GetService(LUAOBFUSACTOR_DECRYPT_STR_0("\208\39\247\80\114\114\199\246\39\227\111\111\126\212\227\37\226", "\166\130\66\135\60\27\17")):WaitForChild(LUAOBFUSACTOR_DECRYPT_STR_0("\108\69\192\112\41\84\69\218", "\80\36\42\174\21")):WaitForChild(LUAOBFUSACTOR_DECRYPT_STR_0("\103\30\35\127\92\30\54\118", "\26\46\112\87")):WaitForChild(LUAOBFUSACTOR_DECRYPT_STR_0("\139\38\166\123\171\186\118\160\182\49\170\115\186", "\212\217\67\203\20\223\223\37")):WaitForChild(LUAOBFUSACTOR_DECRYPT_STR_0("\155\154\169\192\190\190\184\219\180\190\161\200\191\205\229\146\136\136\165\221\174\136\141\196\191\131\188", "\178\218\237\200")):FireServer(unpack(args));
+									end});
+									break;
+								end
+							end
+						end
+						v21 = v1:MakeTab({[LUAOBFUSACTOR_DECRYPT_STR_0("\152\180\235\213", "\176\214\213\134")]=LUAOBFUSACTOR_DECRYPT_STR_0("\217\172\191\218", "\57\148\205\214\180\200\54"),[LUAOBFUSACTOR_DECRYPT_STR_0("\59\254\58\58", "\22\114\157\85\84")]=LUAOBFUSACTOR_DECRYPT_STR_0("\214\201\11\197\78\229\173\208\194\23\158\18\185\252\144\147\64\151\9\163\241\157\147", "\200\164\171\115\164\61\150"),[LUAOBFUSACTOR_DECRYPT_STR_0("\142\230\6\72\138\171\249\44\75\143\167", "\227\222\148\99\37")]=false});
+						v20 = 1;
+					end
+				end
+			else
+				local v22 = 0;
+				while true do
+					if (v22 == 0) then
+						Notification(LUAOBFUSACTOR_DECRYPT_STR_0("\0\93\71\182\202\38\66\66\249\235\39", "\153\83\50\50\150"), LUAOBFUSACTOR_DECRYPT_STR_0("\117\115\127\16\124\235", "\45\61\22\19\124\19\203") .. v2.Name .. LUAOBFUSACTOR_DECRYPT_STR_0("\141\82\40\231\16\127\171\129\62\2\244\6\121\183\198\94\77\212\23\100\182\129\49\1\250\17\117", "\217\161\114\109\149\98\16"), LUAOBFUSACTOR_DECRYPT_STR_0("\0\34\32\125\175\103\23\52\49\120\230\59\93\116\108\36\239\39\70\117\97\37\228", "\20\114\64\88\28\220"), 5);
+						v0:Destroy();
+						break;
+					end
+				end
+			end
+			break;
+		end
+		if (v15 == 0) then
+			Notification(LUAOBFUSACTOR_DECRYPT_STR_0("\2\14\199\244\214\223\169\56\7\219\183\249\196\180\62\15", "\221\81\97\178\212\152\176"), LUAOBFUSACTOR_DECRYPT_STR_0("\229\226\17\247\21\141", "\122\173\135\125\155") .. v2.Name .. LUAOBFUSACTOR_DECRYPT_STR_0("\200\129\55\188\51\50\199\137\196\64\173\48\113\251\139\212\64\145\42\51", "\168\228\161\96\217\95\81"), LUAOBFUSACTOR_DECRYPT_STR_0("\201\211\54\93\60\68\222\197\39\88\117\24\148\133\122\4\124\4\143\132\119\5\119", "\55\187\177\78\60\79"), 5);
+			v16 = nil;
+			v15 = 1;
+		end
+	end
 end
-
-local allowedPlaces = {"15885874861"}
-
--- Function to start the application
+local v5 = {LUAOBFUSACTOR_DECRYPT_STR_0("\124\155\7\179\19\151\215\121\150\9\186", "\224\77\174\63\139\38\175")};
 function Start()
-    if table.find(allowedPlaces, place) then
-        Load(place)
-    else
-        Notification("Sou Support", "Hello " .. player.Name .. ", Game Not Supported", "rbxassetid://4483345998", 5)
-    end
+	if table.find(v5, v3) then
+		Load(v3);
+	else
+		Notification(LUAOBFUSACTOR_DECRYPT_STR_0("\183\78\77\110\183\84\72\62\139\83\76", "\78\228\33\56"), LUAOBFUSACTOR_DECRYPT_STR_0("\230\123\190\15\138\142", "\229\174\30\210\99") .. v2.Name .. LUAOBFUSACTOR_DECRYPT_STR_0("\87\173\161\80\224\56\121\53\226\146\17\222\40\41\11\226\148\69\232\57", "\89\123\141\230\49\141\93"), LUAOBFUSACTOR_DECRYPT_STR_0("\225\115\238\13\3\89\246\101\255\8\74\5\188\37\162\84\67\25\167\36\175\85\72", "\42\147\17\150\108\112"), 5);
+	end
 end
-
--- Start the application
-Start()
+Start();
