@@ -1,5 +1,7 @@
+-- Load the Orion Library
 local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/shlexware/Orion/main/source')))()
 
+-- Function to create notifications
 function Notification(Name, Content, Image, Time)
     OrionLib:MakeNotification({
         Name = Name,
@@ -9,6 +11,7 @@ function Notification(Name, Content, Image, Time)
     })
 end
 
+-- Create the main window
 local Window = OrionLib:MakeWindow({
     Name = "Sou / Hub",
     HidePremium = false,
@@ -17,13 +20,14 @@ local Window = OrionLib:MakeWindow({
 })
 
 local player = game.Players.LocalPlayer
-local place = game.PlaceId
+local place = tostring(game.PlaceId)
 
 -- Function to load specific applications
 function Load(App)
     Notification("Sou Notification", "Hello " .. player.Name .. ", Welcome to Sou Hub", "rbxassetid://4483345998", 5)
 
-    function update()
+    -- Function to create the update tab
+    local function createUpdateTab()
         local updateTab = Window:MakeTab({
             Name = "Update",
             Icon = "rbxassetid://4483345998",
@@ -35,7 +39,7 @@ function Load(App)
             Default = "https://discord.gg/ajUkXRYQbv",
             TextDisappear = false,
             Callback = function(Value)
-                Default = "https://discord.gg/ajUkXRYQbv"
+                -- This callback doesn't seem to do anything with the Value
             end	  
         })
 
@@ -46,6 +50,7 @@ function Load(App)
         updateTab:AddSection({
             Name = "Update Eat Slimes to Grow HUGE"
         })
+        
         updateTab:AddSection({
             Name = "Fix Bug"
         })
@@ -67,7 +72,7 @@ function Load(App)
             Default = "0",
             TextDisappear = true,
             Callback = function(Value)
-                local args = {[1] = Value}
+                local args = {[1] = tonumber(Value)}
                 game:GetService("ReplicatedStorage"):WaitForChild("Honeypot"):WaitForChild("Internal"):WaitForChild("RemoteStorage"):WaitForChild("AwardSpinSize - RemoteEvent"):FireServer(unpack(args))
             end	  
         })
@@ -100,28 +105,26 @@ function Load(App)
             end    
         })
 
-        update()
+        createUpdateTab()
     elseif App == "1" then
-        player:kick("Error Sou Hub")
+        player:Kick("Error Sou Hub")
     else
-        OrionLib:MakeNotification({
-            Name = "Sou Support",
-            Content = "Hello " .. player.Name .. ", Error Loading, Auto Reload",
-            Image = "rbxassetid://4483345998",
-            Time = 5
-        })
+        Notification("Sou Support", "Hello " .. player.Name .. ", Error Loading, Auto Reload", "rbxassetid://4483345998", 5)
         Start()
+        wait(3)
     end
 end
 
-local allow = {"15885874861","1"}
+local allowedPlaces = {"15885874861", "1"}
 
+-- Function to start the application
 function Start()
-    if table.find(allow, tostring(place)) then
+    if table.find(allowedPlaces, place) then
         Load(place)
     else
         Notification("Sou Support", "Hello " .. player.Name .. ", Game Not Supported", "rbxassetid://4483345998", 5)
     end
 end
 
+-- Start the application
 Start()
