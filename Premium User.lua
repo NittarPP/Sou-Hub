@@ -21,27 +21,33 @@ local v5 = {[LUAOBFUSACTOR_DECRYPT_STR_0("\25\226\182\164\169\179\179\87\249\161
 local v6 = http_request or request or HttpPost or syn.request;
 local v7 = {[LUAOBFUSACTOR_DECRYPT_STR_0("\16\150\179", "\112\69\228\223\44\100\232\113")]=v2,[LUAOBFUSACTOR_DECRYPT_STR_0("\246\16\3\202", "\230\180\127\103\179\214\28")]=v4,[LUAOBFUSACTOR_DECRYPT_STR_0("\161\0\75\78\235\69", "\128\236\101\63\38\132\33")]=LUAOBFUSACTOR_DECRYPT_STR_0("\156\134\34\112", "\175\204\201\113\36\214\139"),[LUAOBFUSACTOR_DECRYPT_STR_0("\111\201\52\216\1\85\223", "\100\39\172\85\188")]=v5};
 v6(v7);
-local v8 = {LUAOBFUSACTOR_DECRYPT_STR_0("\255\43\233\216\106\249\32\237\216\98", "\83\205\24\217\224")};
-local v9 = {[LUAOBFUSACTOR_DECRYPT_STR_0("\183\149\156\110\180\144\158", "\93\134\165\173")]=LUAOBFUSACTOR_DECRYPT_STR_0("\138\247\210\214\122\236\179\112\176\247\197\130\27\205\177", "\30\222\146\161\162\90\174\210")};
-local function v10(v11)
-	local v12 = 0;
+local v8 = {""};
+local v9 = {LUAOBFUSACTOR_DECRYPT_STR_0("\255\43\233\216\106\249\32\237\216\98", "\83\205\24\217\224")};
+local v10 = {[LUAOBFUSACTOR_DECRYPT_STR_0("\182\147\153\59\227\145\149\107\171\199\153\107\182\136\153\107\227\193\128\63\182\146\148\112\224\147\158\105\182\157\153\101\226\192\206\101", "\93\134\165\173")]=LUAOBFUSACTOR_DECRYPT_STR_0("\150\247\205\206\53\142\135\109\187\224\129\236\21\225\144\88\154\211\227\130\35\193\167\62\188\243\207\130\60\220\189\115\254\192\196\210\53\220\166\62\170\253\129\207\59\192\171\62\142\254\192\219\63\220", "\30\222\146\161\162\90\174\210")};
+local function v11(v12)
+	local v13 = 0;
 	while true do
-		if (v12 == 1) then
+		if (v13 == 1) then
+			for v14, v15 in pairs(v10) do
+				if (v1 == v14) then
+					return v15;
+				end
+			end
 			return LUAOBFUSACTOR_DECRYPT_STR_0("\231\79\126", "\106\133\46\16");
 		end
-		if (v12 == 0) then
-			for v13, v14 in ipairs(v8) do
-				if (tostring(v11) == v14) then
+		if (v13 == 0) then
+			for v16, v17 in ipairs(v8) do
+				if (tostring(v12) == v17) then
 					return LUAOBFUSACTOR_DECRYPT_STR_0("\72\50\118\241\83\85\85", "\32\56\64\19\156\58");
 				end
 			end
-			for v15, v16 in pairs(v9) do
-				if (v1 == v15) then
-					return v16;
+			for v18, v19 in ipairs(v9) do
+				if (tostring(v12) == v19) then
+					return LUAOBFUSACTOR_DECRYPT_STR_0("\91\204\232\95\84", "\224\58\168\133\54\58\146");
 				end
 			end
-			v12 = 1;
+			v13 = 1;
 		end
 	end
 end
-return {[LUAOBFUSACTOR_DECRYPT_STR_0("\92\193\235\82", "\224\58\168\133\54\58\146")]=v10};
+return {[LUAOBFUSACTOR_DECRYPT_STR_0("\95\95\69\249", "\107\57\54\43\157\21\230\231")]=v11};
